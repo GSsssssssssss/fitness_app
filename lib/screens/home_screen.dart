@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fitness_app/constants/drawer.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() => countTimerJ!.cancel());
         break;
       case "C":
-        setState(() => countTimerC!.cancel());
+        setState(() => countTimerC !.cancel());
         break;
       case "Y":
         setState(() => countTimerY!.cancel());
@@ -110,12 +110,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
           title: Text("Hello $username", style: TextStyle(fontFamily: 'inder')),
           backgroundColor: Color(0xff502F2F),
+          
           actions: <Widget>[
+            
             IconButton(
               icon: const Icon(Icons.account_circle_rounded),
               onPressed: () {},
             ),
           ]),
+          drawer: Navigation_Drawer(),
       body: SafeArea(
           child: Container(
         color: Colors.white,
