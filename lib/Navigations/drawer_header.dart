@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fitness_app/constants/global.dart' as globals;
 
 class MyDrawerHeader extends StatefulWidget {
   const MyDrawerHeader({super.key});
@@ -8,6 +9,9 @@ class MyDrawerHeader extends StatefulWidget {
 }
 
 class _MyDrawerHeaderState extends State<MyDrawerHeader> {
+  final username = globals.username;
+  final email = globals.email;
+  final profileImage = globals.imgString;
   @override
   Widget build(BuildContext context) {
     return Container(color: Color(0xff502F2F),
@@ -22,10 +26,10 @@ class _MyDrawerHeaderState extends State<MyDrawerHeader> {
           height: 70,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            image: DecorationImage(image: AssetImage('assets/images/exercise.png'))
+            image: DecorationImage(image: NetworkImage(profileImage))
           ),),
           Text(
-            "Username",
+            "$username",
             style: TextStyle(
               color: Colors.white,
              fontFamily: 'inder', 
@@ -33,7 +37,7 @@ class _MyDrawerHeaderState extends State<MyDrawerHeader> {
 
           ),
           Text(
-            "email",
+            "$email",
             style: TextStyle(
               color: Color.fromARGB(255, 241, 241, 68),
               fontSize: 14,

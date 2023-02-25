@@ -3,9 +3,10 @@ import 'package:fitness_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
+ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-import 'package:fitness_app/constants/drawer.dart';
+import 'package:fitness_app/navigations/drawer.dart';
+import 'package:fitness_app/navigations/navigation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         //'/FeedScreen': (context) => FeedScreen(),
         //'/ChatScreen': (context) => ChatScreen(),
       },
+      // home: const SplashScreen(),
     );
   }
 }

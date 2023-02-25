@@ -1,7 +1,7 @@
 import 'package:fitness_app/providers/userdata_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:fitness_app/screens/home_screen.dart';
-import 'package:fitness_app/constants/navigation.dart';
+import 'package:fitness_app/navigations/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitness_app/utils/firestore_crud.dart';

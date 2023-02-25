@@ -6,7 +6,7 @@ import 'package:fitness_app/screens/home_screen.dart';
 import 'package:fitness_app/screens/feed_screen.dart';
 import 'package:fitness_app/screens/profile_screen.dart';
 import 'package:fitness_app/constants/global.dart' as globals;
-import 'package:provider/provider.dart';
+// import 'package:provider/userdata_provider.dart';
 
 import 'dart:math' as math;
 

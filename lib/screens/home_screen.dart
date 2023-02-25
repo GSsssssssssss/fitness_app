@@ -6,10 +6,11 @@ import 'package:fitness_app/screens/login_screen.dart';
 import 'package:fitness_app/screens/profile_screen.dart';
 import 'package:fitness_app/utils/firestore_crud.dart';
 import 'package:flutter/material.dart';
-import 'package:fitness_app/constants/drawer.dart';
+import 'package:fitness_app/navigations/drawer.dart';
 import 'package:fitness_app/constants/global.dart' as globals;
- import 'package:provider/provider.dart';
-
+import 'package:provider/provider.dart';
+import 'package:health/health.dart';
+import 'package:permission_handler/permission_handler.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 

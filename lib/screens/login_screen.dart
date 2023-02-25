@@ -1,4 +1,4 @@
-import 'package:fitness_app/constants/navigation.dart';
+import 'package:fitness_app/navigations/navigation.dart';
 import 'package:fitness_app/providers/userdata_provider.dart';
 import 'package:fitness_app/screens/signup_screen.dart';
 import 'package:fitness_app/utils/firestore_crud.dart';
