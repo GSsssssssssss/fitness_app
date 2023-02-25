@@ -1,10 +1,12 @@
+import 'package:fitness_app/providers/userdata_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:fitness_app/screens/home_screen.dart';
 import 'package:fitness_app/constants/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitness_app/utils/firestore_crud.dart';
+import 'package:fitness_app/constants/global.dart' as globals;
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -255,8 +257,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     suffixIcon: IconButton(
                                         icon: Icon(
                                           isVisible
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
                                           size: 25.0,
                                           color: Colors.black.withOpacity(0.8),
                                         ),
@@ -309,6 +311,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void registerToFb() {
     Map<String, String> data = {
+      "img": "",
       "email": emailController.text,
       "fullname": fullnameController.text,
       "username": nameController.text
@@ -318,7 +321,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         .createUserWithEmailAndPassword(
             email: emailController.text, password: passwordController.text)
         .then((result) {
-      FireStoreMethods.addDataToFirestore("Users", data).then((res) {
+      globals.userdoc = result.user!.uid;
+      FireStoreMethods.addUserDoc(
+        "Users",
+        result.user!.uid,
+        data,
+      ).then((res) async {
+        await FireStoreMethods.getDetails("Users", globals.userdoc);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => RootApp()),

@@ -1,7 +1,15 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitness_app/providers/userdata_provider.dart';
+import 'package:fitness_app/screens/login_screen.dart';
+import 'package:fitness_app/screens/profile_screen.dart';
+import 'package:fitness_app/utils/firestore_crud.dart';
 import 'package:flutter/material.dart';
 import 'package:fitness_app/constants/drawer.dart';
+import 'package:fitness_app/constants/global.dart' as globals;
+ import 'package:provider/provider.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -10,12 +18,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final hrate = "76";
+  final username = globals.username;
+
   Timer? countTimerJ;
   Timer? countTimerC;
   Timer? countTimerY;
   Duration myDurationJ = Duration(hours: 1);
   Duration myDurationC = Duration(hours: 1);
   Duration myDurationY = Duration(hours: 1);
+
   @override
   void initState() {
     super.initState();
@@ -67,7 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Step 6
   void setCount(String activity) {
     final increaseSecondsBy = 1;
 
@@ -93,9 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  final username = "Satya";
-  final hrate = "76";
-
   @override
   Widget build(BuildContext context) {
     String strDigits(int n) => n.toString().padLeft(2, '0');
@@ -114,8 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: <Widget>[
             
             IconButton(
-              icon: const Icon(Icons.account_circle_rounded),
-              onPressed: () {},
+              icon: const Icon(Icons.logout_rounded),
+              onPressed: () {
+                signOut();
+              },
             ),
           ]),
           drawer: Navigation_Drawer(),
@@ -323,6 +333,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             width: 45,
                                             child: GestureDetector(
                                               onTap: () {
+                                                Provider.of<UserDataProvider?>(
+                                                        context,
+                                                        listen: false)
+                                                    ?.updateJogtime(minutesJ);
                                                 resetTimer("J");
                                               },
                                               child: Image.asset(
@@ -460,6 +474,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             width: 45,
                                             child: GestureDetector(
                                               onTap: () {
+                                                Provider.of<UserDataProvider?>(
+                                                        context,
+                                                        listen: false)
+                                                    ?.updatecycletime(minutesC);
                                                 resetTimer("C");
                                               },
                                               child: Image.asset(
@@ -597,6 +615,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             width: 45,
                                             child: GestureDetector(
                                               onTap: (() {
+                                                Provider.of<UserDataProvider?>(
+                                                        context,
+                                                        listen: false)
+                                                    ?.updateYogatime(minutesY);
                                                 resetTimer("Y");
                                               }),
                                               child: Image.asset(
@@ -687,5 +709,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       )),
     );
+  }
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  signOut() async {
+    await auth.signOut();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 }

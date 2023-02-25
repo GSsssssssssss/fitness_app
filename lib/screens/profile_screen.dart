@@ -1,5 +1,10 @@
+import 'package:fitness_app/utils/firestore_crud.dart';
+import 'package:fitness_app/utils/image_upload.dart';
 import 'package:flutter/material.dart';
-import 'package:fitness_app/data/me_post_json.dart';
+import 'package:fitness_app/screens/home_screen.dart';
+import 'package:fitness_app/constants/global.dart' as globals;
+import 'package:fitness_app/providers/userdata_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -9,12 +14,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool isPhoto = true;
-  final username = "Satya";
-  final email = "@satyanarayana";
-  final jogtime = 20;
-  final cycletime = 10;
-  final yogatime = 15;
+  ImageUpload IU = ImageUpload();
 
   @override
   void initState() {
@@ -51,55 +51,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Container(
             width: double.infinity,
-            height: 200,
-            color: Colors.amber.shade100,
+            height: 250,
+            color: Color.fromARGB(255, 225, 223, 216),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Stack(children: [
-                  Container(
-                    width: 75,
-                    height: 75,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(28),
-                        border: Border.all(color: Colors.black)),
-                    child: Center(
-                      child: Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"),
-                                fit: BoxFit.cover)),
-                      ),
+                  Center(
+                    child: Container(
+                      width: 140,
+                      height: 140,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(70),
+                          image: DecorationImage(
+                              image: NetworkImage(globals.imgString),
+                              fit: BoxFit.cover)),
                     ),
                   ),
                   Positioned(
-                    top: 41,
-                    left: 38,
+                    top: 100,
+                    left: 225,
                     child: IconButton(
-                        onPressed: (() {}),
+                        onPressed: (() async {
+                          await IU.upload(
+                              'gallery',
+                              '/userimg',
+                              globals.username,
+                              globals.imgString,
+                              globals.userdoc);
+
+                          setState(() {});
+                        }),
                         icon: Icon(
                           Icons.photo_camera,
                           color: Colors.black,
-                          size: 20,
+                          size: 30,
                         )),
                   )
                 ]),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(top: 8),
                   child: Text(
-                    "$username",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    globals.username,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 8,
                 ),
                 Text(
-                  "$email",
+                  globals.email,
                   style: TextStyle(fontSize: 15),
                 ),
               ],
@@ -121,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 8,
                   ),
                   Text(
-                    "$jogtime",
+                    Provider.of<UserDataProvider>(context, listen: false).jog,
                     style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -143,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 8,
                   ),
                   Text(
-                    "$cycletime",
+                    Provider.of<UserDataProvider>(context, listen: false).cycle,
                     style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -165,7 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 8,
                   ),
                   Text(
-                    "$yogatime",
+                    Provider.of<UserDataProvider>(context, listen: false).yoga,
                     style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -182,32 +183,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(
             height: 25,
           ),
-          Text(
-            "My Posts",
-            style: TextStyle(
-                fontFamily: "inder", fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Wrap(
-              spacing: 15,
-              runSpacing: 15,
-              children: List.generate(mePostList.length, (index) {
-                return Container(
-                  width: (size.width - 60) / 2,
-                  height: (size.width - 60) / 2,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                          image: NetworkImage(mePostList[index]),
-                          fit: BoxFit.cover)),
-                );
-              }),
-            ),
-          )
         ],
       ),
     );

@@ -1,7 +1,11 @@
 import 'package:fitness_app/constants/navigation.dart';
+import 'package:fitness_app/providers/userdata_provider.dart';
 import 'package:fitness_app/screens/signup_screen.dart';
+import 'package:fitness_app/utils/firestore_crud.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitness_app/constants/global.dart' as globals;
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -148,8 +152,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       suffixIcon: IconButton(
                                           icon: Icon(
                                             isVisible
-                                                ? Icons.visibility
-                                                : Icons.visibility_off,
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
                                             size: 25.0,
                                             color:
                                                 Colors.black.withOpacity(0.8),
@@ -215,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             minimumSize:
                                 const Size(100, 40), // Background color
                           ),
-                          onPressed: () {
+                          onPressed: () async {
                             logInToFb();
                           },
                           child: const Text(
@@ -243,7 +247,9 @@ class _LoginScreenState extends State<LoginScreen> {
     firebaseAuth
         .signInWithEmailAndPassword(
             email: emailController.text, password: passwordController.text)
-        .then((result) {
+        .then((result) async {
+      globals.userdoc = result.user!.uid;
+      await FireStoreMethods.getDetails("Users", globals.userdoc);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => RootApp(uid: result.user!.uid)),

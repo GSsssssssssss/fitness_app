@@ -1,13 +1,9 @@
+import 'package:fitness_app/providers/userdata_provider.dart';
 import 'package:fitness_app/screens/splash_screen.dart';
-import 'package:fitness_app/screens/login_screen.dart';
-import 'package:fitness_app/screens/home_screen.dart';
-import 'package:fitness_app/screens/signup_screen.dart';
-import 'package:fitness_app/screens/feed_screen.dart';
-import 'package:fitness_app/screens/chat_screen.dart';
-import 'package:fitness_app/constants/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:fitness_app/constants/drawer.dart';
 
@@ -20,7 +16,12 @@ Future<void> main() async {
   //Ideal time to initialize
   //await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserDataProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       title: 'fitness community app',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: RootApp(),
